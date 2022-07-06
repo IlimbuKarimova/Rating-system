@@ -1,10 +1,10 @@
-export const API = "http://localhost:8000/products";
-export const APIC = "http://localhost:8000/comments";
-export const APIL = "http://localhost:8000/likes";
+// export const API = "http://localhost:8000/products";
+// export const APIC = "http://localhost:8000/comments";
+// export const APIL = "http://localhost:8000/likes";
 
-// export const API = "https://databaseilimby.herokuapp.com/products";
-// export const APIC = "https://databaseilimby.herokuapp.com/comments";
-// export const APIL = "https://databaseilimby.herokuapp.com/likes";
+export const API = "https://databaseilimby.herokuapp.com/products";
+export const APIC = "https://databaseilimby.herokuapp.com/comments";
+export const APIL = "https://databaseilimby.herokuapp.com/likes";
 
 export const ACTIONS = {
   GET_PRODUCTS: "GET_PRODUCTS",
