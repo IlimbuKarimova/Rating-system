@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
   signOut,
+  signInWithPopup,
+  RecaptchaVerifier
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { ADMIN_EMAIL } from "../Helpers/consts";
@@ -17,6 +20,7 @@ const authContext = createContext();
 export const useAuth = () => useContext(authContext);
 
 const AuthContextProvider = ({ children }) => {
+  const provider = new GoogleAuthProvider();
   const [currentUser, setCurrentUser] = useState({
     user: null,
     isAdmin: false,
@@ -24,6 +28,54 @@ const AuthContextProvider = ({ children }) => {
   });
 
   const navigate = useNavigate();
+
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+      'size': 'invisible',
+      'callback': (response) => {
+
+      }
+    }, auth)
+  }
+
+  const signInWithPhoneNumber = async (phoneNumber, ) => {
+    try {
+      generateRecaptcha()
+      const appVerifier = window.recaptchaVerifier
+      let confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      window.confirmationResult = confirmationResult
+    } catch (error) {
+      notify(error)
+    }
+  }
+
+  const verifyOTP = (otp) => {
+    try {
+      const confirmationResult = window.confirmationResult;
+      let { user } = confirmationResult.confirm(otp)
+      setCurrentUser(user)
+    } catch (error) {
+      notify(error)
+    }
+  }
+
+  const signInWithGoogle = async () => {
+    try {
+      let { user } = await signInWithPopup(auth, provider)
+      
+      let newUser = {
+        user: user.email,
+        isAdmin: user.email === ADMIN_EMAIL ? true : false,
+        isLogged: true,
+      };
+      setCurrentUser(newUser);
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
+      notify("success", `Welcome 👐!`);
+      navigate("/");
+    } catch (error) {
+      notify(error.message)
+    }
+  }
 
   const registerUser = async (email, password) => {
     try {
@@ -133,7 +185,7 @@ const AuthContextProvider = ({ children }) => {
 
   return (
     <authContext.Provider
-      value={{ currentUser, registerUser, logOutUser, loginUser }}
+      value={{ currentUser, registerUser, logOutUser, loginUser, signInWithGoogle }}
     >
       {children}
     </authContext.Provider>

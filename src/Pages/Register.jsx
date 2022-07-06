@@ -4,7 +4,7 @@ import AuthForm from "../Components/Auth/AuthForm";
 import { useAuth } from "../Context/AuthContextProvider";
 
 const Register = () => {
-  const { registerUser } = useAuth();
+  const { registerUser, signInWithGoogle } = useAuth();
   return (
     <div>
       <AuthForm
@@ -13,6 +13,7 @@ const Register = () => {
         link={"/login"}
         linkText={"Already have an accoun? Login"}
         handleSave={registerUser}
+        signInWithGoogle={signInWithGoogle}
       />
     </div>
   );

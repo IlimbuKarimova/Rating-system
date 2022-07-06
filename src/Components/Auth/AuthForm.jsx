@@ -13,6 +13,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import GoogleIcon from '@mui/icons-material/Google';
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -42,6 +43,7 @@ export default function AuthForm({
   link,
   linkText,
   handleSave,
+  signInWithGoogle
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -135,6 +137,23 @@ export default function AuthForm({
                 </Grid>
                 <Grid item>
                   <AuthLink to={link}>{linkText}</AuthLink>
+                </Grid>
+              </Grid>
+              <Grid container className="google-button" style={{display:"flex", justifyContent:"center", width:"100%"}} >
+                <Grid item
+                  onClick={signInWithGoogle}
+                  sx={{
+                    display:"flex", 
+                    marginTop:'20px', 
+                    justifyContent:"center", 
+                    background:"#4185ed", 
+                    width:"300px",
+                    height:'40px',
+                    alignItems:"center",
+                    cursor:"pointer"
+                  }} >
+                  <GoogleIcon sx={{color:"white"}}/>
+                  <span style={{marginLeft:'20px', color:'white', fontWeight:'600'}}>Sign up with Google</span>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
