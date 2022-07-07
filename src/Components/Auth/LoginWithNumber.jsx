@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Link as AuthLink, useNavigate } from "react-router-dom";
+import { Link as AuthLink } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,9 +14,9 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from '@mui/icons-material/Google';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -38,24 +38,21 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function AuthForm({
-  title,
-  btnText,
-  link,
-  linkText,
-  handleSave,
-  signInWithGoogle
-}) {
-  const navigate = useNavigate()
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    handleSave(data.get("email"), data.get("password"));
-  };
+export default function LoginWithNumber({title,link, linkText, signInWithNumber, verifyOTP}) {
+
+    const [number, setNumber] = useState()
+    const [userName, setUserName] = useState('')
+    const [showOTP, setShowOTP] = useState(false)
+    const [otp, setOtp] = useState()
+
+    const getOTP = () => {
+      signInWithNumber(number)
+      setShowOTP(true)
+    }
+
+    const signIn = () => {
+        verifyOTP(otp, userName)
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -96,54 +93,77 @@ export default function AuthForm({
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              <TextField
+                <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="userName"
+                label="User name"
+                name="userName"
+                value={userName}
+                onChange={(e)=>setUserName(e.target.value)}
+                autoComplete=""
                 autoFocus
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                id="number"
+                label="Phone number"
+                name="number"
+                value={number}
+                onChange={(e)=>setNumber(e.target.value)}
+                autoComplete=""
+                autoFocus
               />
               <Button
-                type="submit"
+                type="button"
+                onClick={getOTP}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                id="sign-in-button"
               >
-                {btnText}
+                Request OTP
               </Button>
+              {
+                showOTP ? (
+                    <>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="otp"
+                            label="OTP"
+                            type="number"
+                            value={otp}
+                            onChange={(e)=>setOtp(e.target.value)}
+                            id="otp"
+                        />
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            onClick={signIn}
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Register
+                        </Button>
+                    </>
+                ):(<></>)
+              }
+
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
                   <AuthLink to={link}>{linkText}</AuthLink>
                 </Grid>
               </Grid>
               <Grid container className="google-button" style={{display:"flex", justifyContent:"center", width:"100%"}} >
                 <Grid item
-                  onClick={signInWithGoogle}
+                  onClick={signInWithNumber}
                   sx={{
                     display:"flex", 
                     marginTop:'20px', 
@@ -156,21 +176,6 @@ export default function AuthForm({
                   }} >
                   <GoogleIcon sx={{color:"white"}}/>
                   <span style={{marginLeft:'20px', color:'white', fontWeight:'600'}}>Sign up with Google</span>
-                </Grid>
-                <Grid item
-                  onClick={()=>navigate('/registerWithNumber')}
-                  sx={{
-                    display:"flex", 
-                    marginTop:'20px', 
-                    justifyContent:"center", 
-                    background:"#4185ed", 
-                    width:"300px",
-                    height:'40px',
-                    alignItems:"center",
-                    cursor:"pointer"
-                  }} >
-                  <LocalPhoneIcon sx={{color:"white"}}/>
-                  <span style={{marginLeft:'20px', color:'white', fontWeight:'600'}}>Sign up with phone number</span>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

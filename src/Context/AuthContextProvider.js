@@ -9,7 +9,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   signInWithPopup,
-  RecaptchaVerifier
+  RecaptchaVerifier,
+  signInWithPhoneNumber
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { ADMIN_EMAIL } from "../Helpers/consts";
@@ -33,27 +34,35 @@ const AuthContextProvider = ({ children }) => {
     window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
       'size': 'invisible',
       'callback': (response) => {
-
+        
       }
     }, auth)
   }
 
-  const signInWithPhoneNumber = async (phoneNumber, ) => {
-    try {
-      generateRecaptcha()
-      const appVerifier = window.recaptchaVerifier
-      let confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      window.confirmationResult = confirmationResult
-    } catch (error) {
-      notify(error)
-    }
+  const signInWithNumber = (phoneNumber ) => {
+    generateRecaptcha()
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then(confirmationResult=>{
+        window.confirmationResult = confirmationResult
+      }).catch(error=>{
+        notify(error)
+      })
   }
 
-  const verifyOTP = (otp) => {
+  const verifyOTP =  (otp, userName) => {
     try {
       const confirmationResult = window.confirmationResult;
-      let { user } = confirmationResult.confirm(otp)
-      setCurrentUser(user)
+      confirmationResult.confirm(otp)
+      const newUser = {
+        user: userName,
+        isAdmin: userName === ADMIN_EMAIL ? true : false,
+        isLogged: true,
+      };
+      setCurrentUser(newUser);
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
+      notify("success", `Welcome 👐!`);
+      navigate("/")
     } catch (error) {
       notify(error)
     }
@@ -61,9 +70,9 @@ const AuthContextProvider = ({ children }) => {
 
   const signInWithGoogle = async () => {
     try {
-      let { user } = await signInWithPopup(auth, provider)
+      const { user } = await signInWithPopup(auth, provider)
       
-      let newUser = {
+      const newUser = {
         user: user.email,
         isAdmin: user.email === ADMIN_EMAIL ? true : false,
         isLogged: true,
@@ -185,7 +194,7 @@ const AuthContextProvider = ({ children }) => {
 
   return (
     <authContext.Provider
-      value={{ currentUser, registerUser, logOutUser, loginUser, signInWithGoogle }}
+      value={{ currentUser, registerUser, logOutUser, loginUser, signInWithGoogle, signInWithNumber, verifyOTP }}
     >
       {children}
     </authContext.Provider>

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import { useAuth } from '../Context/AuthContextProvider';
 import { useLikeContext } from '../Context/LikeContextProvider';
+import { notify } from '../Components/Tostify/Toastify';
 
 
 
@@ -51,7 +52,7 @@ const [isLiked, setIsLiked] = React.useState(isLikedF());
   
   const sendRating = async() => {
     if(!currentUser.user){
-      alert('Необходимо войти в аккаунт')
+      notify('Необходимо войти в аккаунт')
       return
     }
 

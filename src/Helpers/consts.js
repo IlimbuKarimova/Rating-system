@@ -1,10 +1,10 @@
-export const API = "http://localhost:8000/products";
-export const APIC = "http://localhost:8000/comments";
-export const APIL = "http://localhost:8000/likes";
+// export const API = "http://localhost:8000/products";
+// export const APIC = "http://localhost:8000/comments";
+// export const APIL = "http://localhost:8000/likes";
 
-// export const API = "https://ratyng-system-nccim.herokuapp.com/products";
-// export const APIC = "https://ratyng-system-nccim.herokuapp.com/comments";
-// export const APIL = "https://ratyng-system-nccim.herokuapp.com/likes";
+export const API = "https://ratyng-system-nccim.herokuapp.com/products";
+export const APIC = "https://ratyng-system-nccim.herokuapp.com/comments";
+export const APIL = "https://ratyng-system-nccim.herokuapp.com/likes";
 
 export const ACTIONS = {
   GET_PRODUCTS: "GET_PRODUCTS",

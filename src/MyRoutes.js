@@ -12,6 +12,7 @@ import RequireAuth from "./Components/Auth/RequireAuth";
 import ProdDetail from "./Pages/ProdDetail";
 import Error from "./Pages/Error.jsx";
 import Feedback from "./Pages/Feedback";
+import PhoneRegister from "./Pages/PhoneRegister";
 const MyRoutes = () => {
   return (
     <Routes>
@@ -19,6 +20,7 @@ const MyRoutes = () => {
         <Route path="/" element={<Products />} />
         <Route path="/detail/:prodId" element={<ProdDetail />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/registerWithNumber" element={<PhoneRegister />} />
         <Route path="/login" element={<Login />} />
         <Route path="/feedback/:id" element={<Feedback />} />
         <Route
