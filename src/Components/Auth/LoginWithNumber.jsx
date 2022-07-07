@@ -38,7 +38,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function LoginWithNumber({title,link, linkText, signInWithNumber, verifyOTP}) {
+export default function LoginWithNumber({title,link, linkText, signInWithNumber, verifyOTP, signInWithGoogle}) {
 
     const [number, setNumber] = useState()
     const [userName, setUserName] = useState('')
@@ -163,7 +163,7 @@ export default function LoginWithNumber({title,link, linkText, signInWithNumber,
               </Grid>
               <Grid container className="google-button" style={{display:"flex", justifyContent:"center", width:"100%"}} >
                 <Grid item
-                  onClick={signInWithNumber}
+                  onClick={signInWithGoogle}
                   sx={{
                     display:"flex", 
                     marginTop:'20px', 

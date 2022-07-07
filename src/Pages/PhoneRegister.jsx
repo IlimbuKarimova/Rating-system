@@ -4,7 +4,7 @@ import LoginWithNumber from "../Components/Auth/LoginWithNumber";
 import { useAuth } from "../Context/AuthContextProvider";
 
 const PhoneRegister = () => {
-  const { signInWithNumber, verifyOTP } = useAuth();
+  const { signInWithNumber, verifyOTP, signInWithGoogle } = useAuth();
   return (
     <div>
       <LoginWithNumber
@@ -12,6 +12,7 @@ const PhoneRegister = () => {
         link={"/login"}
         linkText={"Already have an accoun? Login"}
         signInWithNumber={signInWithNumber} 
+        signInWithGoogle={signInWithGoogle}
         verifyOTP={verifyOTP}
       />
     </div>
