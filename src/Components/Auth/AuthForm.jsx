@@ -141,7 +141,7 @@ export default function AuthForm({
                   <AuthLink to={link}>{linkText}</AuthLink>
                 </Grid>
               </Grid>
-              <Grid container className="google-button" style={{display:"flex", justifyContent:"center", width:"100%"}} >
+              {/* <Grid container className="google-button" style={{display:"flex", justifyContent:"center", width:"100%"}} >
                 <Grid item
                   onClick={signInWithGoogle}
                   sx={{
@@ -172,7 +172,7 @@ export default function AuthForm({
                   <LocalPhoneIcon sx={{color:"white"}}/>
                   <span style={{marginLeft:'20px', color:'white', fontWeight:'600'}}>Sign up with phone number</span>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
